@@ -231,6 +231,7 @@ public class Tile : MonoBehaviour
         }
         if (CheckValidDirection(tile) && tile.currentColor == TileManager.instance.currentPathColor && !tile.isConnected)
         {
+            Debug.Log("Valid tile!", tile.gameObject);
             return true;
         }
         else
@@ -328,9 +329,10 @@ public class Tile : MonoBehaviour
 
     public void CheckForNeighboringSource(Tile[] adjacentTiles)
     {
+        int totalNeighboringTilesOfColor = adjacentTiles.Where(t => t.currentColor == currentColor).Count();
         foreach (Tile t in adjacentTiles)
         {
-            if (t.isSource && !t.isBeginning && t.currentColor == currentColor && CheckValidDirection(t))
+            if (t.isSource && !t.isBeginning && t.currentColor == currentColor && CheckValidDirection(t) && totalNeighboringTilesOfColor > 1)
             {
                 TileManager.instance.currentPath.Add(t);
                 ConnectToNextTile(t);
